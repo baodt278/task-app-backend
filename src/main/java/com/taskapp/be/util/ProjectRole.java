@@ -1,2 +1,5 @@
-package com.taskapp.be.util;public class ProjectRole {
+package com.taskapp.be.util;
+
+public enum ProjectRole {
+    MANAGER, MEMBER
 }

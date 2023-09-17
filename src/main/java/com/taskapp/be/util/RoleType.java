@@ -1,2 +1,5 @@
-package com.taskapp.be.util;public enum RoleType {
+package com.taskapp.be.util;
+
+public enum RoleType {
+    ADMIN, USER
 }

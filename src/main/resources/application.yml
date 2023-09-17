@@ -1,1 +1,22 @@
+server:
+  port: 8080
 
+task:
+  app:
+    jwtExpiration: 3600000
+    jwtSecret: 2b44b0b00fd822d8ce753e54dac3dc4e06c2725f7db930f3b9924468b53194dbccdbe23d7baa5ef5fbc414ca4b2e64700bad60c5a7c45eaba56880985582fba4
+
+spring:
+  application:
+    name: task-app
+  datasource:
+    url: jdbc:mysql://localhost:3306/taskapp
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    generate-ddl: false
+    show-sql: true

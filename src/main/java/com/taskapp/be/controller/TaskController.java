@@ -1,2 +1,4 @@
-package com.taskapp.be.controller;public class TaskController {
+package com.taskapp.be.controller;
+
+public class TaskController {
 }

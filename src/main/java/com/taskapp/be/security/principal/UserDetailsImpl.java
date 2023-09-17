@@ -1,9 +1,11 @@
 package com.taskapp.be.security.principal;
 
+import java.io.Serial;
 import java.util.Collection;
 import java.util.Objects;
 
 import com.taskapp.be.model.User;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,10 +14,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class UserDetailsImpl implements UserDetails {
     private static final long serialVersionUID = 1L;
 
+    @Getter
     private Long id;
 
     private String username;
 
+    @Getter
     private String email;
 
     @JsonIgnore
@@ -30,16 +34,7 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public static UserDetailsImpl build(User user) {
-
         return new UserDetailsImpl(user.getId(), user.getUsername(), user.getEmail(), user.getPassword());
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     @Override

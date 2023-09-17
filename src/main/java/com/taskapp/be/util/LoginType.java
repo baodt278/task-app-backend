@@ -1,2 +1,5 @@
-package com.taskapp.be.util;public enum LoginType {
+package com.taskapp.be.util;
+
+public enum LoginType {
+    LOCAL, GOOGLE
 }
