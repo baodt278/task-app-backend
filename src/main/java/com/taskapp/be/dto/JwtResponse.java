@@ -1,62 +1,20 @@
 package com.taskapp.be.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.taskapp.be.util.RoleType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 public class JwtResponse {
+    private String name;
     private String token;
     private String type = "Bearer ";
-    private Long id;
-    private String username;
-    private String email;
 
-    public JwtResponse(String accessToken, Long id, String username, String email) {
+    public JwtResponse(String name, String accessToken) {
+        this.name = name;
         this.token = accessToken;
-        this.id = id;
-        this.username = username;
-        this.email = email;
-
-    }
-
-    public String getAccessToken() {
-        return token;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.token = accessToken;
-    }
-
-    public String getTokenType() {
-        return type;
-    }
-
-    public void setTokenType(String tokenType) {
-        this.type = tokenType;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 }

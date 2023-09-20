@@ -47,9 +47,12 @@ public class UserServiceImpl implements UserService {
         if (Objects.isNull(user)) {
             return null;
         } else {
-            UserDto userDTO = new UserDto();
-            BeanUtils.copyProperties(user, userDTO);
-            return userDTO;
+            return UserDto.builder()
+                    .email(user.getEmail())
+                    .username(user.getUsername())
+                    .password(user.getPassword())
+                    .roleType(user.getRole())
+                    .build();
         }
     }
 }
