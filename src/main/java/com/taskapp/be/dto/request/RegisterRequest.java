@@ -1,18 +1,16 @@
-package com.taskapp.be.dto;
+package com.taskapp.be.dto.request;
 
-import com.taskapp.be.util.RoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
+@Builder
+public class RegisterRequest {
     private String username;
     private String email;
     private String password;
-    private RoleType roleType;
 }

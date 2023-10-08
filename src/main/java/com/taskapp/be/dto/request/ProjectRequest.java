@@ -1,21 +1,15 @@
-package com.taskapp.be.model;
+package com.taskapp.be.dto.request;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "project")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Project {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class ProjectRequest {
     private String name;
     private String description;
 }

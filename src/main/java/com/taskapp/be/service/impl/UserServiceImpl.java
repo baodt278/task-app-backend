@@ -1,25 +1,26 @@
 package com.taskapp.be.service.impl;
 
-import com.taskapp.be.dto.LoginDto;
-import com.taskapp.be.dto.RegisterDto;
-import com.taskapp.be.dto.UserDto;
+import com.taskapp.be.dto.request.ChangePasswordRequest;
+import com.taskapp.be.dto.request.LoginRequest;
+import com.taskapp.be.dto.request.RegisterRequest;
+import com.taskapp.be.dto.request.UpdateRequest;
+import com.taskapp.be.dto.response.InfoResponse;
+import com.taskapp.be.dto.response.LoginResponse;
 import com.taskapp.be.model.User;
 import com.taskapp.be.repository.UserRepository;
-import com.taskapp.be.security.jwt.JwtUtils;
-import com.taskapp.be.security.principal.UserDetailsImpl;
+import com.taskapp.be.security.custom.CustomUserDetails;
+import com.taskapp.be.security.jwt.JwtTokenProvider;
 import com.taskapp.be.service.UserService;
-import com.taskapp.be.util.LoginType;
-import com.taskapp.be.util.RoleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Objects;
 
@@ -28,31 +29,68 @@ import java.util.Objects;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider tokenProvider;
+    private final AuthenticationManager authenticationManager;
 
     @Override
-    public void getUserFromRegister(RegisterDto registerDto) {
-        if (!userRepository.existsByUsername(registerDto.getUsername())) {
-            User user = new User();
-            BeanUtils.copyProperties(registerDto, user);
-            user.setRole(RoleType.USER);
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setLoginType(LoginType.LOCAL);
+    public void createNewUser(RegisterRequest registerRequest) {
+        boolean check = userRepository.existsByUsernameOrEmail(registerRequest.getUsername(), registerRequest.getEmail());
+        if (!check) {
+            User user = User.builder()
+                    .username(registerRequest.getUsername())
+                    .fullName(registerRequest.getUsername())
+                    .email(registerRequest.getEmail())
+                    .password(passwordEncoder.encode(registerRequest.getPassword()))
+                    .build();
             userRepository.save(user);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username or email already used");
         }
     }
 
     @Override
-    public UserDto getUserDetails(LoginDto loginDto) {
-        User user = userRepository.findByUsername(loginDto.getUsername()).orElseThrow(() -> null);
-        if (Objects.isNull(user)) {
-            return null;
+    public LoginResponse checkLoginUser(LoginRequest loginRequest) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getUsername(),
+                        loginRequest.getPassword()
+                )
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
+        return new LoginResponse(loginRequest.getUsername(), jwt);
+    }
+
+    @Override
+    public void updateUserInfo(UpdateRequest updateRequest, String username) {
+        User existUser = userRepository.findByUsername(username);
+        existUser.setFullName(updateRequest.getFullName());
+        if (!Objects.equals(existUser.getEmail(), updateRequest.getEmail())) {
+            if (userRepository.existsByEmail(updateRequest.getEmail())) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already used!");
+            }
+            existUser.setEmail(updateRequest.getEmail());
+        }
+        userRepository.save(existUser);
+    }
+
+
+    @Override
+    public InfoResponse loadUserInfo(String username) {
+        InfoResponse infoResponse = new InfoResponse();
+        User user = userRepository.findByUsername(username);
+        BeanUtils.copyProperties(user, infoResponse);
+        return infoResponse;
+    }
+
+    @Override
+    public void changePasswordUser(ChangePasswordRequest changePasswordRequest, String username) {
+        User existUser = userRepository.findByUsername(username);
+        if (passwordEncoder.matches(changePasswordRequest.getOldPassword(), existUser.getPassword())) {
+            existUser.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
+            userRepository.save(existUser);
         } else {
-            return UserDto.builder()
-                    .email(user.getEmail())
-                    .username(user.getUsername())
-                    .password(user.getPassword())
-                    .roleType(user.getRole())
-                    .build();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid password!");
         }
     }
 }

@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,18 +21,21 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title;
+    private String name;
     private String description;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
-    @Enumerated(EnumType.STRING)
-    private Label label;
+    private LocalDate startDate;
+    private LocalDate endDate;
     @Enumerated(EnumType.STRING)
     private Status status;
+    @Enumerated(EnumType.STRING)
+    private Label label;
+    @ManyToOne
+    @JoinColumn(name = "creator_user_id")
+    private User creatorUser;
+    @ManyToOne
+    @JoinColumn(name = "assignee_user_id")
+    private User assigneeUser;
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User assignUser;
 }
