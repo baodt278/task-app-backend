@@ -1,9 +1,11 @@
 package com.taskapp.be.controller;
 
 import com.taskapp.be.dto.request.ProjectRequest;
+import com.taskapp.be.dto.response.ProjectResponse;
 import com.taskapp.be.model.Project;
 import com.taskapp.be.service.ProjectService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,9 +29,8 @@ public class ProjectController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getProjectById(@PathVariable Long id) {
-        projectService.getProjectById(id);
-        return ResponseEntity.ok().build();
+    public Project getProjectById(@PathVariable Long id) {
+        return projectService.getProjectById(id);
     }
 
     @PutMapping("/update/{id}")
@@ -38,5 +39,9 @@ public class ProjectController {
         return ResponseEntity.ok().build();
     }
 
-//    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteProject(@PathVariable long id) {
+        projectService.deleteProject(id);
+        return ResponseEntity.ok().build();
+    }
 }

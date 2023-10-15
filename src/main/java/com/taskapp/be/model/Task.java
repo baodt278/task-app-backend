@@ -1,6 +1,6 @@
 package com.taskapp.be.model;
 
-import com.taskapp.be.util.Label;
+import com.taskapp.be.util.Priority;
 import com.taskapp.be.util.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "task")
@@ -28,7 +27,7 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private Status status;
     @Enumerated(EnumType.STRING)
-    private Label label;
+    private Priority priority;
     @ManyToOne
     @JoinColumn(name = "creator_user_id")
     private User creatorUser;

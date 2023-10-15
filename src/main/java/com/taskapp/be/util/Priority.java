@@ -1,5 +1,5 @@
 package com.taskapp.be.util;
 
-public enum Label {
+public enum Priority {
     LOW, MEDIUM, HIGH
 }
