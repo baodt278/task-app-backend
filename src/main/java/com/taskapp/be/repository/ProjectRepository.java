@@ -12,7 +12,6 @@ import java.util.Optional;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
     boolean existsByName(String name);
-
     Project findByName(String name);
     Project getProjectById(Long id);
     @Query("select p from Project p " +
@@ -20,4 +19,11 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
             "on p.id = u.project.id " +
             "where u.user.username = :username")
     List<Project> getProjectsForUser(@Param("username") String username);
+
+    @Query("SELECT p FROM Project p " +
+            "WHERE p.id NOT IN (" +
+            "SELECT u.project.id FROM UserProject u " +
+            "WHERE u.user.username = :username)")
+    List<Project> getProjectUserNotIN(@Param("username") String username);
+
 }

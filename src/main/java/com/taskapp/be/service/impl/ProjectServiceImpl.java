@@ -2,6 +2,7 @@ package com.taskapp.be.service.impl;
 
 import com.taskapp.be.dto.request.ProjectRequest;
 import com.taskapp.be.model.Project;
+import com.taskapp.be.model.User;
 import com.taskapp.be.model.UserProject;
 import com.taskapp.be.repository.ProjectRepository;
 import com.taskapp.be.repository.UserProjectRepository;
@@ -64,8 +65,27 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void deleteProject(long id) {
-        userProjectRepository.delete(userProjectRepository.findByProjectId(id));
-        projectRepository.deleteById(id);
+    public void deleteProject(long id, String username) {
+        List<User> managers = userRepository.findManagersInProject(id);
+        for (User user: managers){
+            if (username.equals(user.getUsername())){
+                userProjectRepository.delete(userProjectRepository.findByProjectId(id));
+                projectRepository.deleteById(id);
+            }
+            else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Member cannot delete project!");
+            }
+        }
+
     }
+    @Override
+    public void addUserToProject(String username, long id){
+        UserProject userProject = UserProject.builder()
+                .user(userRepository.findByUsername(username))
+                .project(projectRepository.getProjectById(id))
+                .projectRole(ProjectRole.MEMBER)
+                .build();
+        userProjectRepository.save(userProject);
+    }
+
 }
