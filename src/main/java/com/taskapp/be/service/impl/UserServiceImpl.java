@@ -79,7 +79,9 @@ public class UserServiceImpl implements UserService {
     public InfoResponse loadUserInfo(String username) {
         InfoResponse infoResponse = new InfoResponse();
         User user = userRepository.findByUsername(username);
-        BeanUtils.copyProperties(user, infoResponse);
+        infoResponse.setUsername(user.getUsername());
+        infoResponse.setEmail(user.getEmail());
+        infoResponse.setFullName(user.getFullName());
         return infoResponse;
     }
 
