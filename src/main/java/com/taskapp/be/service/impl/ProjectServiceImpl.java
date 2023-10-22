@@ -69,14 +69,21 @@ public class ProjectServiceImpl implements ProjectService {
         List<User> managers = userRepository.findManagersInProject(id);
         for (User user: managers){
             if (username.equals(user.getUsername())){
-                userProjectRepository.delete(userProjectRepository.findByProjectId(id));
+                List<UserProject> userProjects = userProjectRepository.findByProjectId(id);
+                userProjectRepository.deleteAll(userProjects);
                 projectRepository.deleteById(id);
             }
             else {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Member cannot delete project!");
             }
         }
+    }
 
+
+    @Override
+    public void outProject(long id, String username){
+        UserProject userProject = userProjectRepository.findByProjectIdAndUserUsername(id, username);
+        userProjectRepository.delete(userProject);
     }
     @Override
     public void addUserToProject(String username, long id){

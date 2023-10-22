@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -19,25 +20,27 @@ public class MessageService {
         List<Task> assignTask = taskRepository.findByAssigneeUserUsername(username);
         List<String> messages = new ArrayList<>();
         for (Task task : assignTask) {
-            messages.add(createMessage(1, task));
-            if (task.getEndDate().isEqual(today)) {
+            if (today.isEqual(task.getEndDate())) {
                 messages.add(createMessage(2, task));
-            }
-            if (task.getEndDate().isAfter(today)) {
+            } else if (today.isAfter(task.getEndDate())) {
                 messages.add(createMessage(3, task));
+            } else {
+                messages.add(createMessage(1, task));
             }
+
         }
+        Collections.reverse(messages);
         return messages;
     }
 
     private String createMessage(int type, Task task) {
         return switch (type) {
             case 1 ->
-                    String.format("Task %1$s from Project %2$s was assigned to you. Please check information before start working.", task.getName(), task.getProject().getName());
+                    String.format("Assigned to you\nPlease check description before start Task %1$s.", task.getName());
             case 2 ->
-                    String.format("Deadline is coming, %1$s is the end of Task %2$s from Project %3$s", task.getEndDate(), task.getName(), task.getProject().getName());
+                    String.format("Deadline is coming\nToday is the end of Task %1$s.", task.getName());
             case 3 ->
-                    String.format("Task %1$s from Project %2$s is now outdated.", task.getName(), task.getProject().getName());
+                    String.format("Outdated\nTask %1$s is now outdated.", task.getName());
             default -> "Invalid type";
         };
     }

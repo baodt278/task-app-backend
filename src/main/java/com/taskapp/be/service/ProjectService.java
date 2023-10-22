@@ -17,5 +17,7 @@ public interface ProjectService {
 
     void deleteProject(long id, String username);
 
+    void outProject(long id, String username);
+
     void addUserToProject(String username, long id);
 }

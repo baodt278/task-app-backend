@@ -81,4 +81,10 @@ public class ProjectController {
     public List<Project> getProjectsUserNotIN(@PathVariable String username){
         return projectRepository.getProjectUserNotIN(username);
     }
+
+    @PostMapping("/{id}/out/{username}")
+    public ResponseEntity<?> outProject(@PathVariable long id, @PathVariable String username){
+        projectService.outProject(id, username);
+        return ResponseEntity.ok().build();
+    }
 }
