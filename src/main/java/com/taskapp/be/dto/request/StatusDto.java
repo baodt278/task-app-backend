@@ -6,4 +6,5 @@ import lombok.Data;
 @Data
 public class StatusDto {
     private Status status;
+    private String username;
 }

@@ -11,11 +11,13 @@ import java.util.List;
 public interface TaskService {
     void createNewTask(TaskRequest taskRequest, long id, String username);
 
-    List<Task> getBacklogTaskInProject(long id);
+    List<Task> getTodoTaskInProject(long id);
 
     void updateTask(TaskDto taskDto, long id);
 
-    void assignToMe(long taskId, String username);
+    void deleteTask(long taskId, String username);
+
+    void assignToMe(long taskId, String username, String name);
 
     void setStatusTask(StatusDto choice, long taskId);
 

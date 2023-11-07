@@ -21,7 +21,7 @@ public class TaskController {
     private final TaskRepository taskRepository;
 
     @GetMapping("/{taskId}")
-    public Task getTaskById(@PathVariable long taskId){
+    public Task getTaskById(@PathVariable long taskId) {
         return taskRepository.findById(taskId);
     }
 
@@ -32,14 +32,9 @@ public class TaskController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/backlog/{id}/project")
-    public List<Task> getBacklogTasksByProjectId(@PathVariable long id) {
-        return taskService.getBacklogTaskInProject(id);
-    }
-
     @GetMapping("/todo/{id}/project")
     public List<Task> getTodoTasksByProjectId(@PathVariable long id) {
-        return taskRepository.findTodoTaskInProject(id);
+        return taskService.getTodoTaskInProject(id);
     }
 
     @GetMapping("/in-progress/{id}/project")
@@ -58,8 +53,8 @@ public class TaskController {
     }
 
     @PostMapping("/{taskId}/assignee/{username}")
-    public ResponseEntity<?> assigneeMemberToTask(@PathVariable long taskId, @PathVariable String username) {
-        taskService.assignToMe(taskId, username);
+    public ResponseEntity<?> assigneeMemberToTask(@PathVariable long taskId, @PathVariable String username, @RequestBody String name) {
+        taskService.assignToMe(taskId, username, name);
         return ResponseEntity.ok().build();
     }
 
@@ -75,14 +70,14 @@ public class TaskController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{taskId}/delete")
-    public ResponseEntity<?> deleteTask(@PathVariable long taskId) {
-        taskRepository.deleteById(taskId);
+    @PostMapping("/{taskId}/delete")
+    public ResponseEntity<?> deleteTask(@PathVariable long taskId, @RequestBody String username) {
+        taskService.deleteTask(taskId, username);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{username}/assignee")
-    public List<Task> getTasksForUser(@PathVariable String username){
+    public List<Task> getTasksForUser(@PathVariable String username) {
         return taskRepository.findByAssigneeUserUsername(username);
     }
 }

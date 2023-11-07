@@ -17,11 +17,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     @Query("select t from Task t " +
             "join UserProject up on t.project.id = up.project.id " +
-            "where t.status = 'BACKLOG' and t.project.id = :id")
-    List<Task> findBacklogTaskInProject(long id);
-
-    @Query("select t from Task t " +
-            "join UserProject up on t.project.id = up.project.id " +
             "where t.status = 'TODO' and t.project.id = :id")
     List<Task> findTodoTaskInProject(long id);
 
@@ -42,8 +37,12 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     @Query("select t from Task t " +
             "join User u on t.assigneeUser.id = u.id " +
-            "where u.username = :username")
+            "where u.username = :username and t.status != 'FAILED'")
     List<Task> findByAssigneeUserUsername(String username);
 
+    @Query("select t from Task t " +
+            "join User u on t.assigneeUser.id = u.id " +
+            "where u.username = :username")
+    List<Task> findForMessage(String username);
     Task findById(long id);
 }
