@@ -1,10 +1,8 @@
 package com.taskapp.be.controller;
 
 import com.taskapp.be.dto.request.ChangePasswordRequest;
-import com.taskapp.be.dto.response.InfoResponse;
 import com.taskapp.be.dto.request.UpdateRequest;
-import com.taskapp.be.model.User;
-import com.taskapp.be.repository.UserRepository;
+import com.taskapp.be.dto.response.InfoResponse;
 import com.taskapp.be.service.UserService;
 import com.taskapp.be.service.impl.MessageService;
 import lombok.RequiredArgsConstructor;

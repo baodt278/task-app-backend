@@ -1,15 +1,12 @@
 package com.taskapp.be.controller;
 
 import com.taskapp.be.dto.request.ProjectRequest;
-import com.taskapp.be.dto.response.ProjectResponse;
 import com.taskapp.be.model.Project;
 import com.taskapp.be.model.User;
-import com.taskapp.be.model.UserProject;
 import com.taskapp.be.repository.ProjectRepository;
 import com.taskapp.be.repository.UserRepository;
 import com.taskapp.be.service.ProjectService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

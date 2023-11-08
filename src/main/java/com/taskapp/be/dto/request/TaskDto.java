@@ -1,6 +1,5 @@
 package com.taskapp.be.dto.request;
 
-import com.taskapp.be.model.User;
 import com.taskapp.be.util.Priority;
 import lombok.Builder;
 import lombok.Data;

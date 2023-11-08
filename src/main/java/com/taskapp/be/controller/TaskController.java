@@ -6,7 +6,6 @@ import com.taskapp.be.dto.request.TaskRequest;
 import com.taskapp.be.model.Task;
 import com.taskapp.be.repository.TaskRepository;
 import com.taskapp.be.service.TaskService;
-import com.taskapp.be.util.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

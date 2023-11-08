@@ -12,7 +12,6 @@ import com.taskapp.be.security.custom.CustomUserDetails;
 import com.taskapp.be.security.jwt.JwtTokenProvider;
 import com.taskapp.be.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
