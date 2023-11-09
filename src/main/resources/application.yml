@@ -7,13 +7,13 @@ spring:
   application:
     name: task-app
   datasource:
-    url: jdbc:mysql://jtb9ia3h1pgevwb1.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306
-    username: qizpnql4slmjq9nz
-    password: nombwxbhtzsmy0sg
+    url: jdbc:mysql://jtb9ia3h1pgevwb1.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/jiy15xa2whg7u2gm
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: update
     generate-ddl: false
-    show-sql: false
+    show-sql: true
