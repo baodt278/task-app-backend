@@ -7,13 +7,13 @@ spring:
   application:
     name: task-app
   datasource:
-    url: jdbc:mysql://localhost:3306/taskapp
-    username: root
-    password: 123456
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: update
     generate-ddl: false
-    show-sql: false
+    show-sql: true
