@@ -8,8 +8,8 @@ spring:
     name: task-app
   datasource:
     url: jdbc:mysql://jtb9ia3h1pgevwb1.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    username: qizpnql4slmjq9nz
+    password: nombwxbhtzsmy0sg
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
